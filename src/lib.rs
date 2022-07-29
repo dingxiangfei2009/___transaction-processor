@@ -116,6 +116,14 @@ impl AccountStates {
             )
             .collect()
     }
+
+    /// Apply an action against the client
+    ///
+    /// *Details*:
+    /// When a dispute is resolved, subsequent dispute filed will be ignored.
+    /// When a dispute is filed against a `Withdrawal` transaction,
+    /// some funds will be allocated to the `held` state,
+    /// and the reversal will move this portion of funds from `held` to `available`.
     pub fn process(&mut self, action: Action) {
         match action {
             Action::Deposit {
