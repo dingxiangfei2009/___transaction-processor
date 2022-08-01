@@ -172,10 +172,12 @@ impl AccountStates {
                         if let Some(available) = client.available.clone() - amount.clone() {
                             client.available = available;
                             client.held += amount.clone();
+                            client.disputes.insert(transaction);
                         }
                     }
                     Some(TransactionKind::Withdrawal(amount)) => {
                         client.held += amount;
+                        client.disputes.insert(transaction);
                     }
                     None => {}
                 }
@@ -374,6 +376,7 @@ deposit, 2, 2, 2.0
 deposit, 1, 3, 2.0
 withdrawal, 1, 4, 1.5
 withdrawal, 2, 5, 3.0
+chargeback, 2, 2,
 dispute, 2, 2,
 resolve, 2, 2,
 dispute, 2, 2,
